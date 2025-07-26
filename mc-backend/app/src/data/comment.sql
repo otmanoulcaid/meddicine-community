@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS comments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    post INT NOT NULL,
+    content TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    parent_comment_id INT DEFAULT NULL,
+    up INT DEFAULT 0,
+    down INT DEFAULT 0,
+    CONSTRAINT fk_comment_post FOREIGN KEY (post) REFERENCES posts(id) ON DELETE CASCADE,
+    CONSTRAINT fk_parent_comment FOREIGN KEY (parent_comment_id) REFERENCES comments(id) ON DELETE CASCADE
+);

@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS posts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    content TEXT,
+    date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    media VARCHAR(255),
+    up INT DEFAULT 0,
+    down INT DEFAULT 0,
+    CONSTRAINT fk_post_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
