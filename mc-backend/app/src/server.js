@@ -23,8 +23,12 @@ export class Server
 
     start()
     {
-        this.server.listen(
-            {
+        console.log('============================== server config ==============================');
+        console.log(config.PORT);
+        console.log(config.HOST);
+        console.log('============================== server config ==============================');
+        
+        this.server.listen({
                 port: config.PORT,
                 host: config.HOST,
             },

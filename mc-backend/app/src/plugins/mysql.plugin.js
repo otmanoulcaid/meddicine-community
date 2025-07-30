@@ -4,14 +4,6 @@ import mysql from 'mysql2/promise'
 import fs from 'fs'
 
 export default fp(async (fastify) => {
-    console.log('Connecting to MySQL with:', {
-        host: config.MYSQL_HOST,
-        port: config.MYSQL_PORT,
-        user: config.MYSQL_USER,
-        password: config.MYSQL_PASS,
-        database: config.MYSQL_DB
-    });
-
     const connection = await mysql.createConnection({
         host: config.MYSQL_HOST,
         port: config.MYSQL_PORT,
@@ -19,8 +11,10 @@ export default fp(async (fastify) => {
         password: config.MYSQL_PASS,
         database: config.MYSQL_DB
     });
-
+    
+    console.log('============================== MYSQL CONNECTIVITY ==============================');
     console.log('Connected to MySQL successfully');
+    console.log('============================== MYSQL CONNECTIVITY ==============================');
 
     const userSchema = await fs.promises.readFile(new URL('../data/user.sql', import.meta.url), 'utf-8');
     const postSchema = await fs.promises.readFile(new URL('../data/post.sql', import.meta.url), 'utf-8');

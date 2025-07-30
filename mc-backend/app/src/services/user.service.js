@@ -21,7 +21,8 @@ export class UserService
 
     async addUser(data)
     {
-        return await this.userRepo.insert(data)
+        return data
+        // return await this.userRepo.insert(data)
     }
 
     async updateUserByEmail(email, data)

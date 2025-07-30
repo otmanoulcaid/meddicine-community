@@ -2,10 +2,11 @@ export const signupSchema = {
     body : 
     {
         type: 'object',
-        required : ['email', 'username' ,'password'],
+        required : ['email', 'firstName', 'lastName' ,'password'],
         properties :
         {
-            username: {type: 'string', pattern : '^[a-zA-Z0-9_]+$', minLength : 4, maxLength: 20},
+            firstName: {type: 'string', pattern : '^[a-zA-Z0-9_]+$', minLength : 4, maxLength: 20},
+            lastName: {type: 'string', pattern : '^[a-zA-Z0-9_]+$', minLength : 4, maxLength: 20},
             email : {type: 'string', format:'email', maxLength : 320},
             password: {type: 'string', minLength : 8, maxLength: 20}
         }
@@ -25,6 +26,15 @@ export const loginSchema = {
         additionalProperties: false
     }
 };
+// {
+//   firstName: 'string';
+//   lastName: 'string';
+//   email: 'string';
+//   password: 'string';
+//   confirmPassword: 'string';
+//   gender: 'string';
+//   dob: 'string';
+// }
 
 export const emailSchema = {
     body :
@@ -33,7 +43,7 @@ export const emailSchema = {
         required : ['email'],
         properties : 
         {
-            verificationCode : { type: 'number', format : 'email', maxLength : 320 }
+            email : { type: 'number', format : 'email', maxLength : 320 }
         }
     }
 }
@@ -42,10 +52,11 @@ export const verifyOtpSchema = {
     body :
     {
         type: 'object',
-        required : ['verificationCode'],
+        required : ['email', 'otp'],
         properties : 
         {
-            verificationCode : {type: 'number',minLength : 6, maxLength : 6}
+            email : { type: 'string', format : 'email', maxLength : 320 },
+            otp : {type: 'string',minLength : 6, maxLength : 6}
         }
     }
 }

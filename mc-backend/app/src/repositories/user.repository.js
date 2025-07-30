@@ -16,12 +16,8 @@ export class UserRepository
         const keys = Object.keys(field);
         const values = Object.values(field);
 
-        // Map JavaScript field name to SQL if needed
-        const sqlField = keys[0] === 'firstName' ? 'first_name' : 
-                        keys[0] === 'lastName' ? 'last_name' : keys[0];
-
         const [rows] = await this.db.query(
-            `SELECT * FROM users WHERE ${sqlField} = ? LIMIT 1`,
+            `SELECT * FROM users WHERE ${keys} = ? LIMIT 1`,
             values
         );
 

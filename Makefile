@@ -18,14 +18,13 @@ stop:
 stats:
 	@docker stats
 
-clean:
+clean: stop
 	@docker image prune -f
 	@docker container prune -f
-	@docker volume prune -f
 	@docker network prune -f
 
-fclean:
-	@docker system prune -a
+fclean: clean
+	@docker volume prune -f
 
 re: fclean all
 

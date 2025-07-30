@@ -4,8 +4,6 @@ services:
     container_name: mysql
     networks:
       - trance
-    ports:
-      - 3333:3306
     env_file:
       - mysql/.env
     restart: on-failure
@@ -15,12 +13,26 @@ services:
       timeout: 10s
       retries: 5
 
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    networks:
+      - trance
+    restart: on-failure
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   mc:
     build: mc-backend
     image: mc:1.0
     container_name: mc
     networks:
       - trance
+    ports:
+      - 3000:3000
     volumes:
       - ./mc-backend/app:/app
       - /app/node_modules
