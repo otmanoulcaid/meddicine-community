@@ -25,10 +25,10 @@ services:
       timeout: 5s
       retries: 5
 
-  mc:
+  back:
     build: mc-backend
-    image: mc:1.0
-    container_name: mc
+    image: mcb:1.0
+    container_name: mcb
     networks:
       - trance
     ports:
@@ -42,6 +42,21 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+
+  front:
+    build: mc-frontend
+    image: mcf:1.0
+    container_name: mcf
+    networks:
+      - trance
+    ports:
+      - 5173:5173
+    volumes:
+      - ./mc-frontend/app:/app
+      - /app/node_modules
+    restart: on-failure
+    depends_on:
+      - back
 
 networks:
   trance:
