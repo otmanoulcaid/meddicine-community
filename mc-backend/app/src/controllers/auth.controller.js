@@ -9,45 +9,28 @@ export class AuthController
 
     async signup(request, reply)
     {
-        if (request.body.password != request.body.confirmPassword)
-            return reply.status(400).send({message: 'the password should be the same'});
-        const user = await this.userService.addUser({
-            first_name: request.body.firstName,
-            last_name: request.body.lastName, 
-            email: request.body.email,
-            password: request.body.password,
-            gender: request.body.gender,
-            dob: request.body.dob
-        });
-        let otp = await this.authService.sendOtp(request.body.email, 'verify your account');
-        console.log('============================== OTP ==============================');
-        console.log(otp);
-        console.log('============================== OTP ==============================');
-
+        const user = await this.authService.signup(request.body)
         reply.status(201).send ({
-            message: 'sign up successfully, check your email',
+            message: 'sign up successfully, check your email box',
             user
         });
     }
 
-    async verifyOtp(request, _)
+    async verifyOtp(request, reply)
     {
-        await this.authService.verifyOtp(request.body.email, request.body.otp)
-        return ({ message: 'account verified' });
+        await this.authService.verifyOtp(request.body.email, request.body.otp, reply)
+        reply.send({ message: 'verified successfully' });
+    }
+
+    async sendOtp(request, reply)
+    {
+        await this.authService.sendOtp(request.body.email, 'OTP')
+        reply.send({ message: 'a verification code is sent,please check your email box' });
     }
 
     async login(request, reply)
     {
-        
-    }
-
-    async logout(request, reply)
-    {
-        
-    }
-
-    async resetPassword(request, reply)
-    {
-        
+        await this.authService.login(request.body);
+        reply.send({ message: 'login successfully, please check your email box'});
     }
 }

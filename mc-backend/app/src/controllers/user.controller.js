@@ -2,12 +2,16 @@ export class UserController
 {
     constructor(fastify, userService)
     {
+        this.fastify = fastify
         this.userService = userService
     }
 
-    getUser(req, res)
+    async getUser(req, res)
     {
-
+        await this.fastify.authenticate(req)
+        const { email } = req.body
+        const user = await this.userService.getUserByEmail(email)
+        res.send({ user })
     }
     
     async addUser(req, res)
@@ -22,17 +26,21 @@ export class UserController
             email,
             password,
         });
-        return res.status(201).send(user);
+        res.status(201).send(user);
     }
-    
-    updateUser(req, res)
+
+    async updateUser(req, res)
     {
-    
+        await this.fastify.authenticate(req)
+        await this.userService.updateUserByEmail(req.user, req.body.email, req.body.data);
+        res.send({ message: 'updated successfully' })
     }
-    
-    deleteUser(req, res)
+
+    async deleteUser(req, res)
     {
+        await this.fastify.authenticate(req)
+        await this.userService.removeUser(req.user, req.body.email);
+        res.send({ message: 'user deleted successfully' })
     
     }
-    
 }

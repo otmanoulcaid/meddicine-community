@@ -10,7 +10,6 @@ export const user = async (fastify) => {
     const userController = new UserController(fastify, userService)
 
     fastify.get ('/:email' , userController.getUser.bind(userController));
-    fastify.post ('/' , userController.addUser.bind(userController));
     fastify.put ('/:email' , userController.updateUser.bind(userController));
     fastify.delete ('/:email' , userController.deleteUser.bind(userController));
 }

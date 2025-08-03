@@ -1,9 +1,10 @@
 import Fastify from 'fastify'
 import printRoutes from 'fastify-print-routes';
+import cors from '@fastify/cors'
+import dotenv from 'dotenv'
 import plugins from './plugins/index.plugin.js';
 import { routes } from './routes/index.route.js';
 import { config } from './config/env.config.js';
-import dotenv from 'dotenv'
 
 export class Server
 {
@@ -13,9 +14,20 @@ export class Server
         this.config();
     }
 
-    config()
-    {
+    config() {
         dotenv.config();
+    
+        this.server.register(cors, {
+            origin: ['http://localhost:3000'],
+            credentials: true   
+        });
+
+        this.server.setErrorHandler((error, _, reply) => {
+            reply.status(error.statusCode || 500).send({
+                error: error.message || 'Something went wrong'
+            });
+        });
+
         this.server.register(plugins);
         this.server.register(printRoutes);
         this.server.register(routes, { prefix: '/api/v1' });
@@ -23,11 +35,6 @@ export class Server
 
     start()
     {
-        console.log('============================== server config ==============================');
-        console.log(config.PORT);
-        console.log(config.HOST);
-        console.log('============================== server config ==============================');
-        
         this.server.listen({
                 port: config.PORT,
                 host: config.HOST,

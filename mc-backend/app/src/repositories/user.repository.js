@@ -21,7 +21,7 @@ export class UserRepository
             values
         );
 
-        return rows[0] ? this.mapToJavaScript(rows[0]) : null;
+        return rows[0];
     }
 
     async insert(data)

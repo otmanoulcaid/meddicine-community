@@ -18,7 +18,7 @@ export default fp
             }
         });
 
-        fastify.decorate ('authenticate', async (req, reply) => 
+        fastify.decorate ('authenticate', async (req) => 
         {
             try 
             {
