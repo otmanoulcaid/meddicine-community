@@ -10,6 +10,7 @@ export class AuthController
     async signup(request, reply)
     {
         const user = await this.authService.signup(request.body)
+        console.log(request.body);
         reply.status(201).send ({
             message: 'sign up successfully, check your email box',
             user
